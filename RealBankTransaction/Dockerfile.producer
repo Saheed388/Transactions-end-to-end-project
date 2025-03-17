@@ -1,0 +1,27 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install required system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up Kaggle API authentication
+RUN mkdir -p /root/.kaggle && \
+    echo '{"username":"jimohsaheed","key":"54690c32b263d357e41cc748b5723b56"}' > /root/.kaggle/kaggle.json && \
+    chmod 600 /root/.kaggle/kaggle.json
+
+# Copy the requirements file into the container
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the producer script into the container
+COPY transactionProducer.py .
+
+# Run the producer script when the container launches
+CMD ["python", "transactionProducer.py.py"]

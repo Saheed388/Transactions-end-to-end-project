@@ -67,8 +67,6 @@ def main():
                 # Convert row to dictionary
                 transaction = row.to_dict()
 
-                # Add a unique ID to the transaction
-                # transaction['transaction_id'] = str(uuid.uuid4())
 
                 # Send the transaction to Kafka
                 try:
